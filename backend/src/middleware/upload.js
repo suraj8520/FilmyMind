@@ -15,27 +15,27 @@ const fileFilter = async (req, file, cb) => {
 };
 
 const createFileName = (type, id, ext) => {
-  if (type === 'logo') {
-    return `user-${id}-${Date.now()}.${ext}`;
+  const uniqueIdentifier = `${id}-${Date.now()}.${ext}`;
+  if (type === 'image') {
+    return `user-${uniqueIdentifier}`;
   }
   if (type === 'coverImage') {
-    return `postCover-${id}-${Date.now()}.${ext}`;
+    return `postCover-${uniqueIdentifier}`;
   }
   if (type === 'contentImage') {
-    return `post-${id}-${Date.now()}.${ext}`;
+    return `post-${uniqueIdentifier}`;
   }
 };
 
-const handleFirebaseUpload = (imgType = 'logo') => {
+const handleFirebaseUpload = (imgType = 'image') => {
   return async (req, res, next) => {
     const { file } = req;
-    console.log(file);
     const fileName = createFileName(
       imgType,
       req.user.id,
       file.mimetype.split('/')[1],
     );
-    const imagesRef = ref(firebaseStorage, `${file.fieldname}/${fileName}`);
+    const imagesRef = ref(firebaseStorage, `${file.fieldname}s/${fileName}`);
     const metadata = {
       contentType: file.mimetype,
       contentDisposition: 'inline', // to view in browser
@@ -44,9 +44,10 @@ const handleFirebaseUpload = (imgType = 'logo') => {
     try {
       await uploadBytes(imagesRef, file.buffer, metadata);
       const url = await getDownloadURL(imagesRef);
-      if (imgType === 'logo') req.body.image = url;
-      else if (imgType === 'coverImage') req.body.coverImage = url;
-      else if (imgType === 'contentImage') req.body.contentImage = url;
+      // if (imgType === 'image') req.body.image = url;
+      // else if (imgType === 'coverImage') req.body.coverImage = url;
+      // else if (imgType === 'contentImage') req.body.contentImage = url;
+      req.body[imgType] = url;
       next();
     } catch (err) {
       next(new AppError('There was a problem with uploading the file!', 500));

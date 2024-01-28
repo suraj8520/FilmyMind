@@ -7,7 +7,12 @@ import validator from 'validator';
 import bcrypt from 'bcryptjs';
 const userSchema = new Schema({
   name: { type: String, required: [true, 'Name is required'] },
-  image: { type: String },
+  image: {
+    type: String,
+    //handleDefault in frontend
+    // default:
+    //   'https://firebasestorage.googleapis.com/v0/b/filmymind-apersonalproject.appspot.com/o/DefaultUser.png?alt=media&token=1d652138-f039-4ae4-9be8-f68d33b5f699',
+  },
   email: {
     type: String,
     required: [true, 'Email is required'],

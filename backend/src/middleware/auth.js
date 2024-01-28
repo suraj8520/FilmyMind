@@ -23,7 +23,7 @@ const authenticate = async (req, res, next) => {
   // There are chances that the token are valid but the user doesn't exist
   const user = await User.findById(decoded.id).select('+password');
   if (!user) {
-    return next(new AppError("User doens't exist!", 401));
+    return next(new AppError("User doesn't exist!", 401));
   }
   // Check if user changed password after the issue of token
   const passwordChanged = user.passwordChangedAfter(decoded.iat);

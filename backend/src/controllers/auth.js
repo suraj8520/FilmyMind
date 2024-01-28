@@ -76,7 +76,7 @@ const login = async (req, res, next) => {
   });
 };
 
-const forgotPassword = async (req, res, next) => {};
+const forgotPassword = async () => {};
 const changePassword = async (req, res, next) => {
   const { oldPassword, newPassword, confirmNewPassword } = req.body;
   const { user } = req;

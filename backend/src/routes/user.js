@@ -16,7 +16,7 @@ router.patch(
   '/update',
   asyncHandler(authenticate),
   upload.single('image'),
-  asyncHandler(handleFirebaseUpload('logo')),
+  asyncHandler(handleFirebaseUpload('image')),
   asyncHandler(updateUserData),
 );
 

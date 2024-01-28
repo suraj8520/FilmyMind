@@ -15,10 +15,17 @@ const getUser = async (req, res) => {
 const updateUserData = async (req, res) => {
   // we can add email but it has more complications
   const { name, image } = req.body;
-  const updatedUser = await User.findByIdAndUpdate(req.user.id, {
-    name,
-    image,
-  });
+  const updatedUser = await User.findByIdAndUpdate(
+    req.user.id,
+    {
+      name,
+      image,
+    },
+    {
+      new: true,
+      runValidators: true,
+    },
+  );
 
   const sanitizedUser = getSanitizedUser(updatedUser);
   res.status(200).json({
