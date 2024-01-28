@@ -29,6 +29,7 @@ const userSchema = new Schema({
     required: [true, 'password is required'],
     minLength: 8,
     maxLength: 24,
+    select: false, // so that this can't be accessed until you specifically select it.
   },
   confirmPassword: {
     type: String,
@@ -44,11 +45,16 @@ const userSchema = new Schema({
       message: 'passwords are different',
     },
   },
+  isVerified: { type: Boolean, default: false },
+  changePasswordToken: { type: String },
+  verificationToken: { type: String },
+  tokenExpiry: { type: Date },
+  passwordModifiedAt: { type: Date },
 });
 
 // Presave middleware basically runs before saving the data
 userSchema.pre('save', async function (next) {
-  console.log(this.isModified('password'));
+  // console.log('password modified : ', this.isModified('password'));
   if (!this.isModified('password')) return next();
   // if the password is changed or created new then encrypt the password
   // Check when it works and when it doesn't
@@ -63,6 +69,7 @@ userSchema.pre('save', async function (next) {
   // also the salt and cost factor are in the final hash.
   this.password = await bcrypt.hash(this.password, 16);
   this.confirmPassword = undefined;
+  this.passwordModifiedAt = new Date();
   next();
 });
 
@@ -70,6 +77,19 @@ userSchema.pre('save', async function (next) {
 // 1. New user is created
 // 2. While updating user data
 // 3. while updating password
+
+userSchema.methods.comparePassword = async (
+  candidatePassword,
+  userPassword,
+) => {
+  //Because of select: false we can't access using this.password
+  const correct = await bcrypt.compare(candidatePassword, userPassword);
+  return correct;
+};
+// You can't use this on arrow function
+userSchema.methods.passwordChangedAfter = function (jwtExpiryDate) {
+  return jwtExpiryDate < this.passwordModifiedAt.getTime() / 1000;
+};
 
 const User = mongoose.model('user', userSchema);
 

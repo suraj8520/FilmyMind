@@ -4,6 +4,10 @@
 // based on the number of parameters express identifies that it is a global error handling middleware.
 /* eslint-disable no-unused-vars */
 
+import { MongoServerError } from 'mongodb';
+import AppError from '../utils/appError.js';
+import { MongooseError } from 'mongoose';
+
 const sendErrorDev = (err, res) => {
   res.status(err.statusCode).json({
     status: err.status,
@@ -27,6 +31,33 @@ const sendErrorProd = (err, res) => {
   }
 };
 
+const handleInvalidJwtError = () =>
+  new AppError('Invalid token! Try logging in again!', 401);
+
+const handleExpiredJwtError = () =>
+  new AppError('Your session has expired! Log in again!', 401);
+
+const handleMongoServerError = (err) => {
+  if (err.code === 11000) {
+    const key = Object.keys(err.keyValue)[0];
+    const value = err.keyValue[key];
+    return new AppError(
+      `${value} for ${key} already exists! try a different one!`,
+      409,
+    );
+  }
+};
+
+const handleMongooseError = (err) => {
+  if (err.name === 'ValidationError') {
+    const message = Object.values(err.errors)
+      .map((val) => val.message)
+      .join('. ');
+    console.log(message);
+    return new AppError(message, 400);
+  }
+};
+
 const errorHandler = (err, req, res, next) => {
   err.statusCode = err.statusCode || 500;
   err.status = err.status || 'error';
@@ -34,6 +65,11 @@ const errorHandler = (err, req, res, next) => {
   if (process.env.NODE_ENV === 'development') {
     sendErrorDev(err, res);
   } else {
+    // handle the errors using instance method only
+    if (err instanceof MongoServerError) err = handleMongoServerError(err);
+    if (err instanceof MongooseError) err = handleMongooseError(err);
+    if (err.name === 'JsonWebTokenError') err = handleInvalidJwtError();
+    if (err.name === 'TokenExpiredError') err = handleExpiredJwtError();
     sendErrorProd(err, res);
   }
 };
