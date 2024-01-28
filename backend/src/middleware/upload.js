@@ -14,24 +14,44 @@ const fileFilter = async (req, file, cb) => {
   }
 };
 
-const handleFirebaseUpload = async (req, res, next) => {
-  const { file } = req;
-
-  const fileName = `user-${req.user?.id}-${Date.now()}.${file.mimetype.split('/')[1]}`;
-  const imagesRef = ref(firebaseStorage, `images/${fileName}`);
-  const metadata = {
-    contentType: file.mimetype,
-    contentDisposition: 'inline', // to view in browser
-  };
-
-  try {
-    await uploadBytes(imagesRef, file.buffer, metadata);
-    const url = await getDownloadURL(imagesRef);
-    req.body.image = url;
-    next();
-  } catch (err) {
-    next(new AppError('There was a problem with uploading the file!', 500));
+const createFileName = (type, id, ext) => {
+  if (type === 'logo') {
+    return `user-${id}-${Date.now()}.${ext}`;
   }
+  if (type === 'coverImage') {
+    return `postCover-${id}-${Date.now()}.${ext}`;
+  }
+  if (type === 'contentImage') {
+    return `post-${id}-${Date.now()}.${ext}`;
+  }
+};
+
+const handleFirebaseUpload = (imgType = 'logo') => {
+  return async (req, res, next) => {
+    const { file } = req;
+    console.log(file);
+    const fileName = createFileName(
+      imgType,
+      req.user.id,
+      file.mimetype.split('/')[1],
+    );
+    const imagesRef = ref(firebaseStorage, `${file.fieldname}/${fileName}`);
+    const metadata = {
+      contentType: file.mimetype,
+      contentDisposition: 'inline', // to view in browser
+    };
+
+    try {
+      await uploadBytes(imagesRef, file.buffer, metadata);
+      const url = await getDownloadURL(imagesRef);
+      if (imgType === 'logo') req.body.image = url;
+      else if (imgType === 'coverImage') req.body.coverImage = url;
+      else if (imgType === 'contentImage') req.body.contentImage = url;
+      next();
+    } catch (err) {
+      next(new AppError('There was a problem with uploading the file!', 500));
+    }
+  };
 };
 
 const upload = multer({ storage, fileFilter });

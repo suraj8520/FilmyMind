@@ -49,19 +49,23 @@ const handleMongoServerError = (err) => {
 };
 
 const handleMongooseError = (err) => {
+  let message;
   if (err.name === 'ValidationError') {
-    const message = Object.values(err.errors)
+    message = Object.values(err.errors)
       .map((val) => val.message)
       .join('. ');
-    console.log(message);
-    return new AppError(message, 400);
+    // THis is the case for invalid object id
+  } else if (err.name === 'CastError') {
+    message = `Invalid value ${err.value} provided for ${err.path}`;
   }
+  return new AppError(message, 400);
 };
 
 const errorHandler = (err, req, res, next) => {
   err.statusCode = err.statusCode || 500;
   err.status = err.status || 'error';
-
+  // console.log(err instanceof MongoServerError);
+  // console.log(err instanceof MongooseError);
   if (process.env.NODE_ENV === 'development') {
     sendErrorDev(err, res);
   } else {
