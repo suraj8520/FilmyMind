@@ -4,10 +4,14 @@ const blogSchema = new Schema({
   title: {
     type: String,
     required: [true, 'Title is required'],
-    maxLen: 150,
-    minLen: 20,
+    maxLength: 150,
+    minLength: 20,
   },
   numberOfComments: {
+    type: Number,
+    default: 0,
+  },
+  views: {
     type: Number,
     default: 0,
   },

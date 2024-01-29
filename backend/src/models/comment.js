@@ -1,9 +1,11 @@
 import { Schema, model } from 'mongoose';
 
 const commentSchema = new Schema({
-  comment: {
+  text: {
     type: String,
     required: [true, "Comment can't be empty"],
+    minLength: 3,
+    maxLength: 500,
   },
   user: {
     type: Schema.ObjectId,
@@ -15,12 +17,20 @@ const commentSchema = new Schema({
     ref: 'Blog',
     required: [true, 'Where are you writing the comment if not on blog'],
   },
-  replies: [
-    {
-      type: Schema.ObjectId,
-      ref: 'Comment',
-    },
-  ],
+  // replies: [
+  //   {
+  //     type: Schema.ObjectId,
+  //     ref: 'Comment',
+  //   },
+  // ],
+  parentId: {
+    type: Schema.ObjectId,
+    ref: 'Comment',
+  },
+  isEdited: {
+    type: Boolean,
+    default: false,
+  },
   createdAt: {
     type: Date,
     default: Date.now(),

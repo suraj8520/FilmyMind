@@ -22,8 +22,8 @@ router.patch(
 
 // Any routes after this part will be restricted to admin
 router.use(asyncHandler(authenticate), restrictTo('admin'));
-router.post('/create-writer', createWriter);
-router.get('/readers-count', getReadersCount);
-router.get('/writers', getWriters);
+router.post('/create-writer', asyncHandler(createWriter));
+router.get('/readers-count', asyncHandler(getReadersCount));
+router.get('/writers', asyncHandler(getWriters));
 
 export default router;

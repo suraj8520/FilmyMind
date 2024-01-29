@@ -56,7 +56,7 @@ const handleMongooseError = (err) => {
       .join('. ');
     // THis is the case for invalid object id
   } else if (err.name === 'CastError') {
-    message = `Invalid value ${err.value} provided for ${err.path}`;
+    message = `Invalid value provided for ${err.path}`;
   }
   return new AppError(message, 400);
 };
