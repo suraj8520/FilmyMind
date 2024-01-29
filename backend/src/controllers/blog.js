@@ -12,7 +12,7 @@ const checkBlogAuthor = async (req, res, next) => {
   next();
 };
 
-const getPublishedBlog = async (req, res, next) => {
+const getBlog = async (req, res, next) => {
   const { blogId } = req.params;
 
   const blog = await Blog.findById(blogId);
@@ -54,6 +54,7 @@ const getDraft = async (req, res) => {
 // add stats as well.
 const getMyBlogs = async (req, res) => {
   const author = req.user.id;
+
   const blogs = await Blog.find({ author });
   res.status(200).json({
     status: 'success',
@@ -140,7 +141,7 @@ const getAllBlogs = async (req, res) => {
 };
 
 export {
-  getPublishedBlog,
+  getBlog,
   getDraft,
   createBlog,
   saveDraft,
@@ -154,5 +155,6 @@ export {
 
 // change get unpublished blog to getdraft
 // and create a route to save the draft
-// handle checkes
-//You may need to add image upload while publishing
+// handle checks
+// You may need to add image upload while publishing
+// You have to also handle the case of editing.

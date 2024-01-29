@@ -4,7 +4,7 @@ import {
   createBlog,
   deleteBlog,
   editBlog,
-  getPublishedBlog,
+  getBlog,
   getDraft,
   checkBlogAuthor,
   getMyBlogs,
@@ -19,24 +19,25 @@ import { upload, handleFirebaseUpload } from '../middleware/upload.js';
 const router = express.Router();
 
 router.use('/:blogId/comments', commentRouter);
-
-router.get('/:blogId', asyncHandler(getPublishedBlog));
-
+// PUTTING IT BEFORE ROUTER.GET('/:BLOGID) OTHERWISE ALL WILL BE CONSIDERED A PARAMETER
 // TO GET ALL THE BLOGS = FOR ADMIN
-router.patch(
+router.all(
   '/all',
   asyncHandler(authenticate),
   restrictTo('admin'),
   asyncHandler(getAllBlogs),
 );
+router.get(
+  '/my-blogs',
+  asyncHandler(authenticate),
+  restrictTo('writer'),
+  asyncHandler(getMyBlogs),
+);
+
+router.get('/:blogId', asyncHandler(getBlog));
 
 // ALL THE SUBSEQUENT ROUTES WILL BE ONLY FOR AUTHENTICATED WRITERS
 router.use(asyncHandler(authenticate), restrictTo('writer'));
-router.get(
-  '/my-blogs',
-  asyncHandler(checkBlogAuthor),
-  asyncHandler(getMyBlogs),
-);
 router.post('/create', asyncHandler(createBlog));
 router
   .route('/:blogId')
@@ -49,7 +50,7 @@ router
   .delete(asyncHandler(checkBlogAuthor), asyncHandler(deleteBlog));
 
 router
-  .route('/draft/:blogId')
+  .route('/drafts/:blogId')
   .get(asyncHandler(checkBlogAuthor), asyncHandler(getDraft))
   .patch(asyncHandler(checkBlogAuthor), asyncHandler(saveDraft));
 
