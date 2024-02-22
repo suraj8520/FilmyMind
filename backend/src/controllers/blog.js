@@ -66,11 +66,17 @@ const getMyBlogs = async (req, res) => {
 
 const publishBlog = async (req, res, next) => {
   const { blogId } = req.params;
+  const { category, coverImage, title } = req.body;
   const blog = await Blog.findById(blogId);
   if (!blog) return next(new AppError('No blog found with the id', 400));
+
   blog.isPublished = true;
   blog.publishedAt = Date.now();
+  blog.category = category;
+  blog.title = title;
+  blog.coverImage = coverImage;
   blog.save();
+
   res.status(200).json({
     status: 'success',
     data: {
@@ -158,3 +164,4 @@ export {
 // handle checks
 // You may need to add image upload while publishing
 // You have to also handle the case of editing.
+// 1. I need to create the method for uploading images and then adding urls in the content

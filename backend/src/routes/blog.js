@@ -27,6 +27,7 @@ router.all(
   restrictTo('admin'),
   asyncHandler(getAllBlogs),
 );
+
 router.get(
   '/my-blogs',
   asyncHandler(authenticate),
@@ -57,6 +58,8 @@ router
 router.patch(
   '/publish/:blogId',
   asyncHandler(checkBlogAuthor),
+  upload.single('coverImage'),
+  asyncHandler(handleFirebaseUpload('coverImage')),
   asyncHandler(publishBlog),
 );
 

@@ -5,16 +5,20 @@ import User from './../models/user.js';
 
 const authenticate = async (req, res, next) => {
   // The headers are not present
-  if (
-    !req.headers.authorization ||
-    !req.headers.authorization.startsWith('Bearer')
-  ) {
-    return next(new AppError('You are not logged in! Try logging in again!'));
-  }
+  // if (
+  //   !req.headers.authorization ||
+  //   !req.headers.authorization.startsWith('Bearer')
+  // ) {
+  //   return next(new AppError('You are not logged in! Try logging in again!'));
+  // }
 
   // headers are present but may be invalid or expired
-  const token = req.headers.authorization.split(' ')[1];
+  // const token = req.headers.authorization.split(' ')[1];
 
+  if (!req.cookies || !req.cookies.jwt) {
+    return next(new AppError('You are not logged in! Try logging in again!'));
+  }
+  const token = req.cookies.jwt;
   // Jwt takes 3 arguments and they are token, jwtsecret and a callback function which will run when it has been verified
   //so instead of providing callback function we can promisify and run it.
   // Main reason for promisifying it simple => to fit it into async/await method

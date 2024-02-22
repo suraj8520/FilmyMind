@@ -30,6 +30,10 @@ const blogSchema = new Schema({
     ref: 'User',
     required: [true, 'Blog must belong to a author'],
   },
+  category: {
+    type: String,
+    enum: { values: ['tv', 'movies'], message: '{VALUE} is not supported' },
+  },
   isPublished: {
     type: Boolean,
     default: false,

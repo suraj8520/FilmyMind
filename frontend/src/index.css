@@ -1,0 +1,175 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root,
+  :root.light-mode {
+    --color-brand-50: #eff6ff;
+    --color-brand-100: #dbeafe;
+    --color-brand-200: #bfdbfe;
+    --color-brand-300: #93c5fd;
+    --color-brand-400: #60a5fa;
+    --color-brand-500: #3b82f6;
+    --color-brand-600: #2563eb;
+    --color-brand-700: #1d4ed8;
+    --color-brand-800: #1e40af;
+    --color-brand-900: #1e3a8a;
+    --color-brand-950: #172554;
+
+    --color-neutral-50: #f8fafc;
+    --color-neutral-100: #f1f5f9;
+    --color-neutral-200: #e2e8f0;
+    --color-neutral-300: #cbd5e1;
+    --color-neutral-400: #94a3b8;
+    --color-neutral-500: #64748b;
+    --color-neutral-600: #475569;
+    --color-neutral-700: #334155;
+    --color-neutral-800: #1e293b;
+    --color-neutral-900: #0f172a;
+    --color-neutral-950: #020617;
+    /* red and green will be the same also the brand color will be the same   */
+  }
+
+  :root.dark-mode {
+    --color-brand-100: #172554;
+    --color-brand-50: #1e3a8a;
+    --color-brand-200: #1e40af;
+    --color-brand-300: #1d4ed8;
+    --color-brand-400: #2563eb;
+    --color-brand-500: #3b82f6;
+    --color-brand-600: #60a5fa;
+    --color-brand-700: #93c5fd;
+    --color-brand-800: #bfdbfe;
+    --color-brand-900: #dbeafe;
+    --color-brand-950: #eff6ff;
+
+    --color-neutral-100: #020617;
+    /* --color-neutral-100: #020617; */
+    --color-neutral-50: #0f172a;
+    --color-neutral-200: #1e293b;
+    --color-neutral-300: #334155;
+    --color-neutral-400: #475569;
+    --color-neutral-500: #64748b;
+    --color-neutral-600: #94a3b8;
+    --color-neutral-700: #cbd5e1;
+    --color-neutral-800: #e2e8f0;
+    --color-neutral-900: #f1f5f9;
+    --color-neutral-950: #f8fafc;
+  }
+}
+
+@layer components {
+  .input {
+    @apply rounded-xl bg-neutral-100 p-3 text-neutral-700 outline-brand-500 disabled:opacity-65;
+  }
+
+  .link {
+    @apply font-medium text-brand-500 transition-all duration-300 hover:text-brand-600;
+  }
+
+  .card {
+    @apply rounded-lg border border-neutral-200 bg-neutral-50 shadow-sm;
+  }
+
+  .heading {
+    @apply font-semibold text-neutral-800;
+  }
+}
+
+/* HTML: <div class="loader"></div> */
+/* .loader {
+  width: 50px;
+  aspect-ratio: 1.154;
+  display: grid;
+  color: var(--color-brand-500);
+  background:
+    linear-gradient(
+        to bottom left,
+        #0000 calc(50% - 1px),
+        currentColor 0 calc(50% + 1px),
+        #0000 0
+      )
+      right/50% 100%,
+    linear-gradient(
+        to bottom right,
+        #0000 calc(50% - 1px),
+        currentColor 0 calc(50% + 1px),
+        #0000 0
+      )
+      left / 50% 100%,
+    linear-gradient(currentColor 0 0) bottom/100% 2px;
+  background-repeat: no-repeat;
+  transform-origin: 50% 66%;
+  animation: l5 4s infinite linear;
+}
+.loader::before,
+.loader::after {
+  content: '';
+  grid-area: 1/1;
+  background: inherit;
+  transform-origin: inherit;
+  animation: inherit;
+}
+.loader::after {
+  animation-duration: 2s;
+}
+@keyframes l5 {
+  100% {
+    transform: rotate(1turn);
+  }
+} */
+
+* {
+  transition: all 0.5s;
+}
+
+/* HTML: <div class="loader"></div> */
+.loader {
+  width: 50px;
+  aspect-ratio: 1;
+  display: grid;
+  border: 4px solid #0000;
+  border-radius: 50%;
+  border-color: var(--color-neutral-400) #0000;
+  animation: l16 1s infinite linear;
+}
+.loader::before,
+.loader::after {
+  content: '';
+  grid-area: 1/1;
+  margin: 2px;
+  border: inherit;
+  border-radius: 50%;
+}
+.loader::before {
+  border-color: var(--color-brand-500) #0000;
+  animation: inherit;
+  animation-duration: 0.5s;
+  animation-direction: reverse;
+}
+.loader::after {
+  margin: 8px;
+}
+@keyframes l16 {
+  100% {
+    transform: rotate(1turn);
+  }
+}
+
+#mobile-nav {
+  display: none;
+}
+
+#desktop-nav {
+  display: block;
+}
+
+@media screen and (max-width: 728px) {
+  #desktop-nav {
+    display: none;
+  }
+  #mobile-nav {
+    display: block;
+  }
+}
