@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { twMerge } from 'tailwind-merge';
 
 const classNames = {
-  base: 'rounded-xl transition ease-in-out duration-300 font-medium tracking-wide',
+  base: 'rounded-xl transition ease-in-out duration-300 flex gap-1 items-center font-medium tracking-wide',
   disabled: 'disabled:opacity-50 disabled:cursor-not-allowed',
   pill: 'rounded-full',
   size: {
@@ -11,9 +11,9 @@ const classNames = {
     large: 'px-8 py-3 text-xl',
   },
   variant: {
-    primary: 'bg-brand-500 text-brand-50 hover:bg-brand-600',
+    primary: 'bg-brand-500 text-white hover:bg-brand-600',
     secondary:
-      'bg-brand-50 text-brand-500 border border-brand-300 hover:bg-brand-100 hover:text-brand-600 hover:border-brand-400',
+      'bg-brand-50 text-brand-700 border border-brand-300 hover:bg-brand-100 hover:text-brand-600 hover:border-brand-400',
     danger: 'bg-red-600 text-red-50 hover:bg-red-700',
   },
 };

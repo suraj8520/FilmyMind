@@ -5,7 +5,7 @@ function ThemeToggle() {
   const { isDarkMode, toggleMode } = useThemeContext();
   return (
     <div
-      className="fixed bottom-4 left-4 rounded-lg bg-neutral-100 p-3 shadow-md"
+      className="fixed bottom-4 left-4 rounded-lg bg-neutral-50 p-3 shadow-full hover:cursor-pointer "
       onClick={toggleMode}
     >
       {isDarkMode ? (

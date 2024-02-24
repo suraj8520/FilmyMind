@@ -43,6 +43,7 @@ export default {
       },
       boxShadow: {
         full: 'rgba(0, 0, 0, 0.15) 0px 5px 15px 0px',
+        // full: 'rgba(100, 100, 111, 0.2) 0px 2px 15px 0px',
       },
     },
   },

@@ -1,6 +1,6 @@
-function FormRowVertical({ label, error, children }) {
+function FormRow({ direction = 'vertical', label, error, children }) {
   return (
-    <div className="flex flex-col gap-1">
+    <div className={`flex gap-1 ${direction === 'vertical' && 'flex-col'}`}>
       {label && (
         <label
           htmlFor={children.props.id}
@@ -14,4 +14,4 @@ function FormRowVertical({ label, error, children }) {
     </div>
   );
 }
-export default FormRowVertical;
+export default FormRow;

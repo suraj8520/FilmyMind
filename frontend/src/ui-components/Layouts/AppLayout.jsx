@@ -4,9 +4,9 @@ import Footer from '../common/Footer';
 
 function AppLayout() {
   return (
-    <div className="flex min-h-screen flex-col gap-4 bg-neutral-100">
+    <div className="scrollbar-gutter flex min-h-screen flex-col gap-4 bg-neutral-100">
       <Header />
-      <main className="flex-1 overflow-x-auto">
+      <main className="flex-1 overflow-y-auto">
         <Outlet />
       </main>
       <Footer />

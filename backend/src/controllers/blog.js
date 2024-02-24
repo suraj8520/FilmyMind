@@ -12,6 +12,17 @@ const checkBlogAuthor = async (req, res, next) => {
   next();
 };
 
+const getImageUrl = async (req, res) => {
+  const { contentImage: imgUrl } = req.body;
+  console.log(imgUrl);
+  res.status(200).json({
+    status: 'success',
+    data: {
+      imgUrl,
+    },
+  });
+};
+
 const getBlog = async (req, res, next) => {
   const { blogId } = req.params;
 
@@ -27,11 +38,17 @@ const getBlog = async (req, res, next) => {
   });
 };
 
-const createBlog = async (req, res) => {
-  const { title, coverImage, content } = req.body;
+const createDraft = async (req, res) => {
+  const { title, coverImage: image, description, content } = req.body;
   const author = req.user.id;
-
-  const blog = await Blog.create({ title, coverImage, content, author });
+  const coverImage = image || '';
+  const blog = await Blog.create({
+    title,
+    coverImage,
+    description,
+    content,
+    author,
+  });
   res.status(201).json({
     status: 'success',
     data: {
@@ -149,7 +166,7 @@ const getAllBlogs = async (req, res) => {
 export {
   getBlog,
   getDraft,
-  createBlog,
+  createDraft,
   saveDraft,
   editBlog,
   deleteBlog,
@@ -157,6 +174,7 @@ export {
   getMyBlogs,
   publishBlog,
   getAllBlogs,
+  getImageUrl,
 };
 
 // change get unpublished blog to getdraft

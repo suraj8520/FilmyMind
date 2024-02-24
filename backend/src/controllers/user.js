@@ -4,6 +4,7 @@ import { getSanitizedUser } from './auth.js';
 const getUser = async (req, res) => {
   const { user } = req;
   const sanitizedUser = getSanitizedUser(user);
+  console.log(sanitizedUser);
   res.status(200).json({
     status: 'success',
     data: {

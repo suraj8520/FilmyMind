@@ -6,7 +6,7 @@ import FullPageLoader from './FullPageLoader';
 
 function UserNav() {
   //Here add if there is no user then do this.
-  const { data: user } = useGetUser();
+  const { user } = useGetUser();
   const { isLoggingOut, logout } = useLogout();
 
   if (!user) {
@@ -23,16 +23,18 @@ function UserNav() {
       <Menu>
         <Menu.Toggle
           id="user-nav"
-          openEl={<img src="user.png" alt="User Image" />}
-          closeEl={<img src="user.png" alt="User Image" />}
+          openEl={<img src={user.image || '/user.png'} alt="User Image" />}
+          closeEl={<img src={user.image || '/user.png'} alt="User Image" />}
         />
         <Menu.List id="user-nav" className="mt-5">
           <Menu.ListItem>
             <Link to="/account">Profile</Link>
           </Menu.ListItem>
-          <Menu.ListItem>
-            <Link to="/dashboard">Dashboard</Link>
-          </Menu.ListItem>
+          {user.role !== 'reader' && (
+            <Menu.ListItem>
+              <Link to="/dashboard">Dashboard</Link>
+            </Menu.ListItem>
+          )}
           <Menu.ListItem>
             <button className="text-red-500" onClick={logout}>
               Logout

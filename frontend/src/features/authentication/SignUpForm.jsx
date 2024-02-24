@@ -1,7 +1,7 @@
 import { useForm } from 'react-hook-form';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import Button from '../../ui-components/common/Button';
-import FormRowVertical from '../../ui-components/common/FormRowVertical';
+import FormRow from '../../ui-components/common/FormRow';
 import { signup } from '../../services/api/user';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
@@ -44,7 +44,7 @@ function SignUpForm() {
       className="flex w-full flex-col gap-4"
       onSubmit={handleSubmit(handleSignUp)}
     >
-      <FormRowVertical label={'Name'} error={errors?.name?.message}>
+      <FormRow label={'Name'} error={errors?.name?.message}>
         <input
           type="text"
           id="name"
@@ -63,8 +63,8 @@ function SignUpForm() {
             },
           })}
         />
-      </FormRowVertical>
-      <FormRowVertical label={'Email'} error={errors?.email?.message}>
+      </FormRow>
+      <FormRow label={'Email'} error={errors?.email?.message}>
         <input
           type="email"
           id="email"
@@ -77,8 +77,8 @@ function SignUpForm() {
             pattern: /\S+@\S+\.\S+/,
           })}
         />
-      </FormRowVertical>
-      <FormRowVertical label={'Password'} error={errors?.password?.message}>
+      </FormRow>
+      <FormRow label={'Password'} error={errors?.password?.message}>
         <input
           type="password"
           id="password"
@@ -94,8 +94,8 @@ function SignUpForm() {
             },
           })}
         />
-      </FormRowVertical>
-      <FormRowVertical
+      </FormRow>
+      <FormRow
         label={'Confirm Password'}
         error={errors?.confirmPassword?.message}
       >
@@ -112,7 +112,7 @@ function SignUpForm() {
               getValues().password === value || 'Passwords do not match',
           })}
         />
-      </FormRowVertical>
+      </FormRow>
       <Button type="primary" fullWidth disabled={isSigningUp}>
         Create account
       </Button>

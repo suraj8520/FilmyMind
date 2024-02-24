@@ -77,6 +77,39 @@
   }
 }
 
+.bn-container[data-color-scheme] {
+  --bn-font-family: Rubik, sans-serif;
+  --bn-colors-editor-text: var(--color-neutral-700);
+  --bn-colors-editor-background: var(--color-neutral-50);
+  --bn-colors-menu-text: var(--color-neutral-800);
+  --bn-colors-menu-background: var(--color-neutral-50);
+  --bn-colors-tooltip-text: var(--color-neutral-800);
+  --bn-colors-tooltip-background: var(--color-neutral-50);
+  --bn-colors-hovered-text: var(--color-neutral-800);
+  --bn-colors-hovered-background: var(--color-neutral-100);
+  --bn-colors-selected-text: var(--color-neutral-50);
+  --bn-colors-selected-background: var(--color-neutral-800);
+  --bn-colors-disabled-text: var(--color-neutral-700);
+  --bn-colors-disabled-background: var(--color-neutral-50);
+  --bn-colors-side-menu: var(--color-neutral-600);
+}
+
+.scrollbar-gutter {
+  scrollbar-gutter: stable;
+}
+
+.bn-block {
+  padding-bottom: 0.4rem;
+}
+
+.bn-block h1 {
+  line-height: 1 !important;
+}
+
+.bn-block p {
+  line-height: 1.75 !important;
+}
+
 /* HTML: <div class="loader"></div> */
 /* .loader {
   width: 50px;
@@ -121,7 +154,9 @@
 } */
 
 * {
-  transition: all 0.5s;
+  transition:
+    background-color 0.5s,
+    border 0.5s;
 }
 
 /* HTML: <div class="loader"></div> */

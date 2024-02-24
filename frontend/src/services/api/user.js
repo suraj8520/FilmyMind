@@ -3,6 +3,14 @@ import AxiosInstance from './../AxiosInstance';
 // we don't need try catch blocks since react-query handles that itself
 // thrown error will go into error state and returned data will go into data.
 
+export async function handleResData(data) {
+  if (data.status !== 'success') {
+    throw new Error(data.message);
+  }
+
+  return data?.data ? data.data : null;
+}
+
 export async function signup({ email, name, password, confirmPassword }) {
   const { data } = await AxiosInstance.post('/api/auth/signup', {
     email,
@@ -11,12 +19,7 @@ export async function signup({ email, name, password, confirmPassword }) {
     confirmPassword,
   });
 
-  console.log(data);
-  if (data.status !== 'success') {
-    throw new Error(data.message);
-  }
-
-  return data.data;
+  return handleResData(data);
 }
 
 export async function login({ email, password }) {
@@ -25,25 +28,15 @@ export async function login({ email, password }) {
     password,
   });
 
-  if (data.status !== 'success') {
-    throw new Error(data.message);
-  }
-  return data.data;
+  return handleResData(data);
 }
 
 export async function getUser() {
   const { data } = await AxiosInstance.get('/api/users/me');
-  if (data.status !== 'success') {
-    throw new Error(data.message);
-  }
-
-  return data.data;
+  return handleResData(data);
 }
 
 export async function logout() {
   const { data } = await AxiosInstance.get('/api/auth/logout');
-  if (data.status !== 'success') {
-    throw new Error(data.message);
-  }
-  return null;
+  return handleResData(data);
 }

@@ -3,9 +3,7 @@ import mongoose, { Schema } from 'mongoose';
 const blogSchema = new Schema({
   title: {
     type: String,
-    required: [true, 'Title is required'],
-    maxLength: 150,
-    minLength: 20,
+    // required: [true, 'Title is required'],
   },
   numberOfComments: {
     type: Number,
@@ -23,7 +21,9 @@ const blogSchema = new Schema({
   },
   content: {
     type: String,
-    required: [true, 'Content is required'],
+  },
+  description: {
+    type: String,
   },
   author: {
     type: Schema.ObjectId,

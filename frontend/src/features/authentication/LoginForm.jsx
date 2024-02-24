@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import Button from '../../ui-components/common/Button';
-import FormRowVertical from '../../ui-components/common/FormRowVertical';
+import FormRow from '../../ui-components/common/FormRow';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { login as loginApi } from '../../services/api/user';
 import toast from 'react-hot-toast';
@@ -39,7 +39,7 @@ function LoginForm() {
 
   return (
     <form className="flex w-full flex-col gap-4" onSubmit={handleSubmit}>
-      <FormRowVertical label={'Email'}>
+      <FormRow label={'Email'}>
         <input
           type="email"
           id="email"
@@ -51,8 +51,8 @@ function LoginForm() {
           defaultValue={email}
           onChange={(e) => setEmail(e.target.value)}
         />
-      </FormRowVertical>
-      <FormRowVertical label={'Password'}>
+      </FormRow>
+      <FormRow label={'Password'}>
         <input
           type="password"
           id="password"
@@ -65,7 +65,7 @@ function LoginForm() {
           defaultValue={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-      </FormRowVertical>
+      </FormRow>
       <Button type="primary" fullWidth disabled={isLoggingIn}>
         Login
       </Button>

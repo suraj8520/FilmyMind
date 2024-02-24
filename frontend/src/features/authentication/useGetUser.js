@@ -7,7 +7,7 @@ const useGetUser = () => {
     queryFn: getUser,
   });
 
-  return { isLoading, data, error };
+  return { isLoading, user: data?.user, error };
 };
 
 export default useGetUser;

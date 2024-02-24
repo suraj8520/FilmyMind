@@ -1,7 +1,7 @@
 import express from 'express';
 import commentRouter from './comment.js';
 import {
-  createBlog,
+  createDraft,
   deleteBlog,
   editBlog,
   getBlog,
@@ -11,6 +11,7 @@ import {
   publishBlog,
   getAllBlogs,
   saveDraft,
+  getImageUrl,
 } from '../controllers/blog.js';
 import asyncHandler from '../utils/asyncHandler.js';
 import { authenticate, restrictTo } from '../middleware/auth.js';
@@ -39,7 +40,13 @@ router.get('/:blogId', asyncHandler(getBlog));
 
 // ALL THE SUBSEQUENT ROUTES WILL BE ONLY FOR AUTHENTICATED WRITERS
 router.use(asyncHandler(authenticate), restrictTo('writer'));
-router.post('/create', asyncHandler(createBlog));
+router.post(
+  '/upload-image',
+  upload.single('contentImage'),
+  asyncHandler(handleFirebaseUpload('contentImage')),
+  asyncHandler(getImageUrl),
+);
+router.post('/create', asyncHandler(createDraft));
 router
   .route('/:blogId')
   .patch(
@@ -54,6 +61,9 @@ router
   .route('/drafts/:blogId')
   .get(asyncHandler(checkBlogAuthor), asyncHandler(getDraft))
   .patch(asyncHandler(checkBlogAuthor), asyncHandler(saveDraft));
+
+// getting the draft is needed in unpublished blogs and which are not completed
+// saving is needed in the scenario where the edition is happening
 
 router.patch(
   '/publish/:blogId',
