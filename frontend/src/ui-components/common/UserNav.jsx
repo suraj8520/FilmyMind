@@ -3,7 +3,8 @@ import useLogout from '../../features/authentication/useLogout';
 import Menu from '../compound-components/Menu';
 import { Link } from 'react-router-dom';
 import FullPageLoader from './FullPageLoader';
-import { LiaChartBarSolid, LiaUser } from 'react-icons/lia';
+// import { LiaChartBarSolid, LiaUser } from 'react-icons/lia';
+import { LiaUser } from 'react-icons/lia';
 import { MdLogout, MdOutlineArticle } from 'react-icons/md';
 // can also add activate option
 function UserNav() {

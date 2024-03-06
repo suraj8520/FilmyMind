@@ -26,37 +26,39 @@ function MyBlogCard({ blog, type }) {
       <div className="flex items-end justify-between gap-2">
         <p className="text-sm text-neutral-600">
           {type === 'draft'
-            ? format(blog.createdAt, 'MMMM dd, yyyy')
+            ? format(blog.updatedAt, 'MMMM dd, yyyy')
             : format(blog.publishedAt, 'MMMM dd, yyyy')}
         </p>
-        {type === 'draft' && (
-          <button
-            onClick={() => {
-              navigate('/edit-blog/' + blog.id);
-              console.log('This is not working');
-            }}
-          >
-            <LiaEdit size={24} className="text-brand-600" />
-          </button>
-        )}
-        <Modal>
-          <Modal.Button id={'confirm-delete'}>
-            <button>
-              <LiaTrashAlt size={24} className="text-red-500" />
-            </button>
-          </Modal.Button>
-          <Modal.Window id={'confirm-delete'}>
-            <ConfirmDelete
-              onDelete={() => {
-                deleteBlog(blog.id, {
-                  onSuccess: () => {
-                    queryClient.invalidateQueries(['drafts']);
-                  },
-                });
+        <div>
+          {type === 'draft' && (
+            <button
+              onClick={() => {
+                navigate('/edit-blog/' + blog.id);
+                console.log('This is not working');
               }}
-            />
-          </Modal.Window>
-        </Modal>
+            >
+              <LiaEdit size={24} className="text-brand-600" />
+            </button>
+          )}
+          <Modal>
+            <Modal.Button id={'confirm-delete'}>
+              <button>
+                <LiaTrashAlt size={24} className="text-red-500" />
+              </button>
+            </Modal.Button>
+            <Modal.Window id={'confirm-delete'}>
+              <ConfirmDelete
+                onDelete={() => {
+                  deleteBlog(blog.id, {
+                    onSuccess: () => {
+                      queryClient.invalidateQueries(['drafts']);
+                    },
+                  });
+                }}
+              />
+            </Modal.Window>
+          </Modal>
+        </div>
       </div>
     </div>
   );
