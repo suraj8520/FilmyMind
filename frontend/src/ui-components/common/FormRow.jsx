@@ -1,10 +1,12 @@
 function FormRow({ direction = 'vertical', label, error, children }) {
   return (
-    <div className={`flex gap-1 ${direction === 'vertical' && 'flex-col'}`}>
+    <div
+      className={`flex gap-1 ${direction === 'vertical' ? 'flex-col' : `items-center justify-between gap-4`} `}
+    >
       {label && (
         <label
           htmlFor={children.props.id}
-          className="pl-2 font-medium text-neutral-700"
+          className="w-60 text-nowrap pl-2 font-medium text-neutral-700"
         >
           {label}
         </label>

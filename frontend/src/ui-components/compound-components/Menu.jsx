@@ -29,7 +29,7 @@ function List({ children, id, className }) {
     <ul
       ref={listRef}
       className={twMerge(
-        'absolute right-0 top-full z-50 flex flex-col divide-y divide-neutral-200 rounded-lg bg-neutral-50 p-2 shadow-full',
+        'absolute right-0 top-full z-50 flex w-fit flex-col divide-y divide-neutral-200 rounded-lg bg-neutral-50 p-2 shadow-full',
         className,
         openMenuId === id || 'hidden',
       )}
@@ -41,13 +41,15 @@ function List({ children, id, className }) {
 }
 
 function ListItem({ children, className, ...rest }) {
+  const { closeMenu } = useGlobalContext();
   return (
     <li
       // className={`px-16 py-3 font-medium hover:text-brand-400 ${className}`}
       className={twMerge(
-        'px-16 py-3 font-medium text-neutral-700 hover:text-brand-400',
+        'w-fit px-6 py-3 text-neutral-700 hover:text-brand-400',
         className,
       )}
+      onClick={() => closeMenu()}
       {...rest}
     >
       {children}

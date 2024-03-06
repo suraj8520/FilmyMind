@@ -19,6 +19,7 @@ const createComment = async (req, res, next) => {
     user: userId,
     text,
     parentId,
+    createdAt: new Date(),
   });
 
   res.status(201).json({
@@ -77,4 +78,29 @@ const getCommentsCount = async (req, res) => {
   });
 };
 
-export { createComment, editComment, deleteComment, getCommentsCount };
+const getComments = async (req, res, next) => {
+  const { blogId } = req.params;
+
+  const blog = await Blog.findById(blogId);
+  if (!blog) {
+    return next(
+      new AppError("If the blog doesn't exist then how can you get comments!"),
+    );
+  }
+
+  const comments = await Comment.find({ blog: blogId }).sort('-createdAt');
+  res.status(200).json({
+    status: 'success',
+    data: {
+      comments,
+    },
+  });
+};
+
+export {
+  createComment,
+  editComment,
+  deleteComment,
+  getCommentsCount,
+  getComments,
+};

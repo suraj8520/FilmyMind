@@ -30,6 +30,7 @@ const createFileName = (type, id, ext) => {
 const handleFirebaseUpload = (imgType = 'image') => {
   return async (req, res, next) => {
     const { file } = req;
+    if (!file) return next();
     const fileName = createFileName(
       imgType,
       req.user.id,

@@ -37,5 +37,14 @@ const commentSchema = new Schema({
   },
 });
 
+commentSchema.pre(/^find|^findById/, function (next) {
+  this.populate({
+    path: 'user',
+    select: 'name image',
+  });
+
+  next();
+});
+
 const Comment = model('Comment', commentSchema);
 export default Comment;

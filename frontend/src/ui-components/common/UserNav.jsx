@@ -3,7 +3,9 @@ import useLogout from '../../features/authentication/useLogout';
 import Menu from '../compound-components/Menu';
 import { Link } from 'react-router-dom';
 import FullPageLoader from './FullPageLoader';
-
+import { LiaChartBarSolid, LiaUser } from 'react-icons/lia';
+import { MdLogout, MdOutlineArticle } from 'react-icons/md';
+// can also add activate option
 function UserNav() {
   //Here add if there is no user then do this.
   const { user } = useGetUser();
@@ -23,20 +25,49 @@ function UserNav() {
       <Menu>
         <Menu.Toggle
           id="user-nav"
-          openEl={<img src={user.image || '/user.png'} alt="User Image" />}
-          closeEl={<img src={user.image || '/user.png'} alt="User Image" />}
+          openEl={
+            <img
+              src={user.image || '/user.png'}
+              alt="User Image"
+              className="aspect-square w-10 rounded-full object-cover"
+            />
+          }
+          closeEl={
+            <img
+              src={user.image || '/user.png'}
+              alt="User Image"
+              className="aspect-square w-10 rounded-full object-cover"
+            />
+          }
         />
         <Menu.List id="user-nav" className="mt-5">
           <Menu.ListItem>
-            <Link to="/account">Profile</Link>
+            <Link to="/account" className={'flex items-center gap-2'}>
+              <LiaUser size={24} />
+              Profile
+            </Link>
           </Menu.ListItem>
-          {user.role !== 'reader' && (
-            <Menu.ListItem>
-              <Link to="/dashboard">Dashboard</Link>
-            </Menu.ListItem>
-          )}
+
           <Menu.ListItem>
-            <button className="text-red-500" onClick={logout}>
+            <Link to="/my-blogs/drafts" className={' flex items-center gap-2'}>
+              <MdOutlineArticle size={24} />
+              <span className="text-nowrap"> My Blogs</span>
+            </Link>
+          </Menu.ListItem>
+          {/* <Menu.ListItem>
+            <Link to="/stats" className={'flex items-center gap-2'}>
+              {' '}
+              <LiaChartBarSolid size={24} />
+              Stats
+            </Link>
+          </Menu.ListItem> */}
+
+          <Menu.ListItem>
+            <button
+              onClick={logout}
+              className={'flex items-center gap-2 font-medium text-red-500'}
+            >
+              <MdLogout size={24} />
               Logout
             </button>
           </Menu.ListItem>

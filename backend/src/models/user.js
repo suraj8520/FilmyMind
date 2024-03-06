@@ -96,6 +96,6 @@ userSchema.methods.passwordChangedAfter = function (jwtExpiryDate) {
   return jwtExpiryDate < this.passwordModifiedAt.getTime() / 1000;
 };
 
-const User = mongoose.model('user', userSchema);
+const User = mongoose.model('User', userSchema);
 
 export default User;

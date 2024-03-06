@@ -40,3 +40,16 @@ export async function logout() {
   const { data } = await AxiosInstance.get('/api/auth/logout');
   return handleResData(data);
 }
+
+export async function updateUserInfo(formData) {
+  const { data } = await AxiosInstance.patch('/api/users/update', formData);
+  return handleResData(data);
+}
+
+export async function updateUserPassword(passwordData) {
+  const { data } = await AxiosInstance.patch(
+    '/api/auth/reset-password',
+    passwordData,
+  );
+  return handleResData(data);
+}

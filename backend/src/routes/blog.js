@@ -12,6 +12,8 @@ import {
   getAllBlogs,
   saveDraft,
   getImageUrl,
+  getAuthorsBlogs,
+  getDrafts,
 } from '../controllers/blog.js';
 import asyncHandler from '../utils/asyncHandler.js';
 import { authenticate, restrictTo } from '../middleware/auth.js';
@@ -19,10 +21,14 @@ import { upload, handleFirebaseUpload } from '../middleware/upload.js';
 
 const router = express.Router();
 
+router.get('/', asyncHandler(getAllBlogs));
 router.use('/:blogId/comments', commentRouter);
 // PUTTING IT BEFORE ROUTER.GET('/:BLOGID) OTHERWISE ALL WILL BE CONSIDERED A PARAMETER
 // TO GET ALL THE BLOGS = FOR ADMIN
-router.all(
+
+router.get('/by-author/:authorId', asyncHandler(getAuthorsBlogs));
+
+router.get(
   '/all',
   asyncHandler(authenticate),
   restrictTo('admin'),
@@ -36,6 +42,7 @@ router.get(
   asyncHandler(getMyBlogs),
 );
 
+router.get('/drafts', asyncHandler(authenticate), asyncHandler(getDrafts));
 router.get('/:blogId', asyncHandler(getBlog));
 
 // ALL THE SUBSEQUENT ROUTES WILL BE ONLY FOR AUTHENTICATED WRITERS

@@ -2,27 +2,37 @@ import { twMerge } from 'tailwind-merge';
 import Tag from '../../ui-components/common/Tag';
 import AuthorInfo from './AuthorInfo';
 
-function ArticlePreview({ usedIn }) {
+function ArticlePreview({
+  category,
+  title,
+  description,
+  author,
+  publishedAt,
+  usedIn = 'aside',
+}) {
   return (
     <div className="flex h-full flex-col justify-between gap-4 p-2">
       <div className="flex flex-col items-start gap-2">
-        <Tag>Movies</Tag>
-        <h2 className="text-lg font-semibold text-neutral-800 sm:text-xl ">
-          Transformers Toughest Autobot Was Born From a Forgotten TV Show
+        <Tag>{category ? category : 'All'}</Tag>
+        <h2
+          className={twMerge(
+            'line-clamp-2 text-lg font-semibold text-neutral-800 sm:text-xl',
+            usedIn === 'blog-detail' && 'text-xl sm:text-4xl',
+          )}
+        >
+          {title}
         </h2>
         <p
           className={twMerge(
-            'text-neutral-600',
-            usedIn === 'trending-section' && 'hidden sm:block',
+            'line-clamp-4 text-neutral-600',
+            usedIn === 'blog-detail' && 'text-md',
+            usedIn === 'aside' && 'hidden',
           )}
         >
-          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Delectus rem
-          minus placeat doloribus quaerat ex facilis dolorem corporis magnam
-          quidem numquam ab iusto illo tempora aliquam vero praesentium, quia
-          at!
+          {description}
         </p>
       </div>
-      <AuthorInfo />
+      <AuthorInfo author={author} publishedAt={publishedAt} />
     </div>
   );
 }

@@ -1,33 +1,32 @@
+import { Link } from 'react-router-dom';
 import Logo from './Logo';
-import Nav from './Nav';
+
 import SearchBar from './SearchBar';
 import UserNav from './UserNav';
+import { LiaEdit } from 'react-icons/lia';
+import useGetUser from '../../features/authentication/useGetUser';
 
 function Header() {
+  const { user } = useGetUser();
   return (
-    <header className="bg-neutral-50 p-3 shadow-sm">
-      <div className="mx-auto hidden max-w-screen-2xl items-center justify-between gap-5 lg:grid lg:grid-cols-3">
-        <Logo usedFor="header" />
-        <Nav />
-        <div className="flex flex-row items-center gap-4 justify-self-end">
+    <header className="border-b border-neutral-100 bg-neutral-50 px-6 py-3">
+      <div className="mx-auto flex items-center justify-between gap-5 ">
+        <div className="flex items-center gap-6">
+          <Logo usedFor="header" />
           <SearchBar />
-          <UserNav />
         </div>
-      </div>
-      {/* <div className="mx-auto hidden max-w-screen-2xl items-center justify-between gap-5 lg:flex">
-        <Logo usedFor="header" />
-        <Nav />
-        <div className="flex flex-row items-center gap-4">
-          <SearchBar />
+        <div className="flex flex-row items-center gap-3 sm:gap-5">
+          {/* <Nav /> */}
+          {user?.role === 'writer' && (
+            <Link
+              to="/create-blog"
+              className="flex items-center justify-between  text-neutral-600"
+            >
+              <LiaEdit size={32} />
+              <span className="hidden pt-1 font-medium sm:block">Write</span>
+            </Link>
+          )}
           <UserNav />
-        </div>
-      </div> */}
-      <div className="mx-auto flex max-w-screen-2xl content-between items-center gap-5 lg:hidden">
-        <Logo usedFor="header" />
-        <div className="flex flex-row items-center gap-3">
-          <SearchBar />
-          <UserNav />
-          <Nav />
         </div>
       </div>
     </header>

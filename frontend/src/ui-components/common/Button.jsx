@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { twMerge } from 'tailwind-merge';
 
 const classNames = {
-  base: 'rounded-xl transition ease-in-out duration-300 flex gap-1 items-center font-medium tracking-wide',
+  base: 'rounded-xl transition ease-in-out duration-300 flex gap-1 items-center justify-center font-medium tracking-wide',
   disabled: 'disabled:opacity-50 disabled:cursor-not-allowed',
   pill: 'rounded-full',
   size: {

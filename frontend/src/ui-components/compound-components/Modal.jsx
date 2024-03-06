@@ -24,9 +24,9 @@ function Window({ id, children }) {
   if (id !== openModalId) return null;
 
   return createPortal(
-    <div className="fixed left-0 top-0 z-[1000] flex h-screen w-screen items-center justify-center backdrop-blur-sm">
+    <div className="fixed left-0 top-0 z-[10000] flex h-screen w-screen items-center justify-center backdrop-blur-sm">
       <div
-        className="relative  rounded-xl bg-neutral-50 p-8 shadow-full"
+        className="relative rounded-xl border border-neutral-100 bg-neutral-50 p-8 shadow-full"
         ref={ref}
       >
         <button className="absolute right-2 top-2" onClick={() => closeModal()}>

@@ -5,8 +5,7 @@ const checkBlogAuthor = async (req, res, next) => {
   const { blogId } = req.params;
   const author = req.user.id;
   const blog = await Blog.findById(blogId);
-
-  if (String(blog.author) !== String(author)) {
+  if (String(blog.author.id) !== String(author)) {
     return next(new AppError('No blog found with that id!', 404));
   }
   next();
@@ -14,7 +13,6 @@ const checkBlogAuthor = async (req, res, next) => {
 
 const getImageUrl = async (req, res) => {
   const { contentImage: imgUrl } = req.body;
-  console.log(imgUrl);
   res.status(200).json({
     status: 'success',
     data: {
@@ -25,10 +23,12 @@ const getImageUrl = async (req, res) => {
 
 const getBlog = async (req, res, next) => {
   const { blogId } = req.params;
-
   const blog = await Blog.findById(blogId);
   if (!blog.isPublished)
     return next(new AppError('No blog found with that id!', 404));
+
+  blog.views += 1;
+  await blog.save();
 
   res.status(200).json({
     status: 'success',
@@ -48,6 +48,7 @@ const createDraft = async (req, res) => {
     description,
     content,
     author,
+    updatedAt: new Date(),
   });
   res.status(201).json({
     status: 'success',
@@ -83,16 +84,17 @@ const getMyBlogs = async (req, res) => {
 
 const publishBlog = async (req, res, next) => {
   const { blogId } = req.params;
-  const { category, coverImage, title } = req.body;
+  const { category, coverImage, title, description } = req.body;
   const blog = await Blog.findById(blogId);
   if (!blog) return next(new AppError('No blog found with the id', 400));
 
   blog.isPublished = true;
   blog.publishedAt = Date.now();
   blog.category = category;
+  blog.description = description;
   blog.title = title;
   blog.coverImage = coverImage;
-  blog.save();
+  await blog.save();
 
   res.status(200).json({
     status: 'success',
@@ -124,12 +126,13 @@ const editBlog = async (req, res, next) => {
 
 const saveDraft = async (req, res, next) => {
   const { blogId } = req.params;
-  const { title, content } = req.body;
-
+  const { title, content, description } = req.body;
   const blog = await Blog.findById(blogId);
   if (!blog) return next(new AppError('No blog found with the id', 400));
-  blog.title = title || blog.title;
-  blog.content = content || blog.content;
+  blog.title = title;
+  blog.content = content;
+  blog.description = description;
+  blog.updatedAt = new Date();
   await blog.save();
 
   res.status(200).json({
@@ -152,8 +155,41 @@ const deleteBlog = async (req, res, next) => {
   });
 };
 
+const getDrafts = async (req, res) => {
+  const authorId = req.user.id;
+  const blogs = await Blog.find({
+    author: authorId,
+    isPublished: false,
+  }).select('title description updatedAt createdAt');
+  res.status(200).json({
+    status: 'success',
+    data: {
+      blogs,
+    },
+  });
+};
+
+const getAuthorsBlogs = async (req, res) => {
+  const { authorId } = req.params;
+  const blogs = await Blog.find({ author: authorId, isPublished: true });
+  res.status(200).json({
+    status: 'success',
+    data: {
+      blogs,
+    },
+  });
+};
+
 const getAllBlogs = async (req, res) => {
-  const blogs = await Blog.find();
+  let options = { isPublished: true };
+  if (req.query && req.query.search) {
+    const searchRegex = new RegExp(req.query.search, 'i'); // i for case insensitive
+    options = { ...options, title: { $regex: searchRegex } };
+  }
+
+  const blogs = await Blog.find(options).select(
+    'coverImage title description author publishedAt',
+  );
   res.status(200).json({
     status: 'success',
     data: {
@@ -174,6 +210,8 @@ export {
   getMyBlogs,
   publishBlog,
   getAllBlogs,
+  getAuthorsBlogs,
+  getDrafts,
   getImageUrl,
 };
 

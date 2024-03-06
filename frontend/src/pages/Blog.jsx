@@ -3,10 +3,11 @@ import BlogDetail from '../features/blogs/BlogDetail';
 function Blog() {
   return (
     // <div className="h-fit w-full bg-neutral-50">
-    <div className="mx-auto max-w-screen-2xl px-4 ">
-      <BlogDetail />
+    <div className="scrollbar-gutter min-h-screen bg-neutral-50 px-4 ">
+      <div className="mx-auto max-w-screen-xl">
+        <BlogDetail />
+      </div>
     </div>
-    // </div>
   );
 }
 export default Blog;

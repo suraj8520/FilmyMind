@@ -5,11 +5,14 @@ import {
   createComment,
   deleteComment,
   editComment,
+  getComments,
   getCommentsCount,
 } from '../controllers/comment.js';
 
 // Preserve the parent params values
 const router = express.Router({ mergeParams: true });
+
+router.get('/', asyncHandler(getComments));
 
 //check for all routes whether it is authenticated or not and allow the access to create, update, delete if authenticated
 router.use(asyncHandler(authenticate));

@@ -5,21 +5,18 @@ import { Toaster } from 'react-hot-toast';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import AppLayout from './ui-components/Layouts/AppLayout';
-import Blogs from './pages/Blogs';
 import Blog from './pages/Blog';
 import Home from './pages/Home';
 import NotFound from './pages/NotFound';
 import Account from './pages/Account';
-import About from './pages/About';
 import GlobalUIProvider from './contexts/GlobalUIProvider';
 import ThemeToggle from './ui-components/common/ThemeToggle';
 import ThemeProvider from './contexts/ThemeProvider';
 import ProtectedRoute from './ui-components/common/ProtectedRoute';
-import DashBoardLayout from './ui-components/Layouts/DashBoardLayout';
-import Overview from './pages/Overview';
-import DashboardBlogs from './pages/DashboardBlogs';
-import Authors from './pages/Authors';
 import CreateBlog from './pages/CreateBlog';
+import Search from './pages/Search';
+import MyBlogs from './pages/MyBlogs';
+import Dashboard from './pages/Dashboard';
 
 const queryClient = new QueryClient();
 
@@ -40,9 +37,6 @@ function App() {
               <Route element={<AppLayout />}>
                 <Route index element={<Navigate replace to="/home" />} />
                 <Route path="home" element={<Home />} />
-                <Route path="blog/:id" element={<Blog />} />
-                <Route path="blogs" element={<Blogs />} />
-                <Route path="about" element={<About />} />
                 <Route
                   path="account"
                   element={
@@ -51,15 +45,34 @@ function App() {
                     </ProtectedRoute>
                   }
                 />
+                <Route path="blog/:id" element={<Blog />} />
+                <Route path="search" element={<Search />} />
+                <Route path="stats" element={<Dashboard />} />
+                <Route
+                  path="my-blogs/:type"
+                  element={
+                    <ProtectedRoute>
+                      <MyBlogs />
+                    </ProtectedRoute>
+                  }
+                />
               </Route>
-              {/** Add protected option here. */}
-              <Route path="dashboard" element={<DashBoardLayout />}>
-                <Route index element={<Navigate replace to="overview" />} />
-                <Route path="overview" element={<Overview />} />
-                <Route path="blogs" element={<DashboardBlogs />} />
-                <Route path="authors" element={<Authors />} />
-                <Route path="create-blog" element={<CreateBlog />} />
-              </Route>
+              <Route
+                path="create-blog"
+                element={
+                  <ProtectedRoute>
+                    <CreateBlog />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="edit-blog/:blogId"
+                element={
+                  <ProtectedRoute>
+                    <CreateBlog />
+                  </ProtectedRoute>
+                }
+              />
               <Route path="login" element={<Login />} />
               <Route path="signup" element={<Signup />} />
               <Route path="*" element={<NotFound />} />

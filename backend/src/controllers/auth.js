@@ -113,15 +113,7 @@ const changePassword = async (req, res, next) => {
   user.confirmPassword = confirmNewPassword;
   await user.save();
 
-  const token = createJwtToken({ id: user.id });
-  const sanitizedUser = getSanitizedUser(user);
-  res.status(200).json({
-    status: 'success',
-    data: {
-      user: sanitizedUser,
-    },
-    token,
-  });
+  sendJwtToken(res, user, 200);
 };
 
 export {
