@@ -12,7 +12,7 @@ export async function handleResData(data) {
 }
 
 export async function signup({ email, name, password, confirmPassword }) {
-  const { data } = await AxiosInstance.post('/api/auth/signup', {
+  const { data } = await AxiosInstance.post('/auth/signup', {
     email,
     name,
     password,
@@ -23,7 +23,7 @@ export async function signup({ email, name, password, confirmPassword }) {
 }
 
 export async function login({ email, password }) {
-  const { data } = await AxiosInstance.post('/api/auth/login', {
+  const { data } = await AxiosInstance.post('/auth/login', {
     email,
     password,
   });
@@ -32,23 +32,23 @@ export async function login({ email, password }) {
 }
 
 export async function getUser() {
-  const { data } = await AxiosInstance.get('/api/users/me');
+  const { data } = await AxiosInstance.get('/users/me');
   return handleResData(data);
 }
 
 export async function logout() {
-  const { data } = await AxiosInstance.get('/api/auth/logout');
+  const { data } = await AxiosInstance.get('/auth/logout');
   return handleResData(data);
 }
 
 export async function updateUserInfo(formData) {
-  const { data } = await AxiosInstance.patch('/api/users/update', formData);
+  const { data } = await AxiosInstance.patch('/users/update', formData);
   return handleResData(data);
 }
 
 export async function updateUserPassword(passwordData) {
   const { data } = await AxiosInstance.patch(
-    '/api/auth/reset-password',
+    '/auth/reset-password',
     passwordData,
   );
   return handleResData(data);

@@ -1,4 +1,5 @@
 import express from 'express';
+import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import userRouter from './routes/user.js';
 import authRouter from './routes/auth.js';
@@ -11,6 +12,8 @@ import errorHandler from './middleware/error.js';
  */
 
 const app = express();
+app.use(cors());
+app.options('*', cors());
 app.use(express.json());
 app.use(cookieParser());
 

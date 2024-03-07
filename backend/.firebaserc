@@ -1,9 +1,0 @@
-{
-  "projects": {
-    "default": "filmymind-apersonalproject"
-  },
-  "hosting": {
-    "site": "zoneapi",
-    "public": "public"
-  }
-}
